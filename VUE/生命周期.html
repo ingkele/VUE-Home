@@ -4,13 +4,175 @@
 <head>
     <meta charset="utf-8" />
     <title>VUE-生命周期</title>
+    <link rel="stylesheet" href="js/styles/monokai-sublime.css">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 
 <body>
     <div id="app">
         <h1>生命周期</h1>
+        {{msg}}
+        <p>一直在想怎么才能把VUE的生命周期讲清楚，开始是写了代码和流程图来模拟，但写完还是觉得一个个描述比较好。所以下面就先试试。</p>
+        <h5>什么是生命周期</h5>
+        <span>生命周期就是从开始到结束，这其中经过的时间长度就是生命周期。在VUE中，就是当我们<a href="#">实例化new Vue</a>的时候</span>
+        <p>简而言之,vue的生命周期就是从<a href="#">new vue</a>开始，页面关闭结束。</p>
+        <p>而生命周期的钩子，相当于生命周期中经历的几次特殊时期，vue将这些特殊时期开放出来提供给代码在不同时期做不同的应对。好比说一个怀孕妈妈要经历受孕前、受孕时、怀孕期、产子、孕后等几个阶段</p>
+        <h5>详例</h5>
+        <span>下面是一个简单的例子来说明这几个钩子先后顺序</span>
+        <pre><code>
+            &ltdiv id="app"&gt
+                {&nbsp{ msg }&nbsp}
+            &lt/div&gt
+
+
+            &ltscript&gt
+                var vm = new Vue({
+                    el: "#app",
+                    data: {
+                        msg: "hi vue",
+                    },
+                    //在实例初始化之后，数据观测 (data observer) 和 event/watcher 事件配置之前被调用。
+                    beforeCreate: function () {
+            console.log(this.msg);
+                    },
+                    /* 在实例创建完成后被立即调用。
+                    在这一步，实例已完成以下的配置：数据观测 (data observer)，属性和方法的运算，watch/event 事件回调。
+                    然而，挂载阶段还没开始，$el 属性目前不可见。 */
+                    created: function () {
+            console.log(this.msg);
+                    },
+                    //在挂载开始之前被调用：相关的渲染函数首次被调用
+                    beforeMount: function () {
+            console.log(this.msg);
+
+                    },
+                    //el 被新创建的 vm.$el 替换, 挂在成功	
+                    mounted: function () {
+            console.log(this.msg);
+
+                    },
+                    //数据更新时调用
+                    beforeUpdate: function () {
+            console.log(this.msg);
+                    },
+                    //组件 DOM 已经更新, 组件更新完毕 
+                    updated: function () {
+            console.log(this.msg);
+                    }
+                });
+                setTimeout(function () {
+                    vm.msg = "change ......";
+                }, 3000);
+            &lt/script&gt
+        </code ></pre>
+        <span>得到运行结果：</span>
+        <pre><code>
+            beforeCreate
+            created
+            beforeMount
+            mounted
+            beforeUpdate
+            updated
+        </code></pre>
+        <span>可见钩子的先后顺序：beforeCreate》created》beforeMount》mounted.</span>
+        <p>接着我们修改一下，试试把msg打印出来</p>
+        <pre>
+            <code>
+                    &ltscript&gt
+                        var vm = new Vue({
+                            el: "#app",
+                            data: {
+                                msg: "hi vue",
+                            },
+                            //在实例初始化之后，数据观测 (data observer) 和 event/watcher 事件配置之前被调用。
+                            beforeCreate: function () {
+                                console.log(this.msg);
+                            },
+                            /* 在实例创建完成后被立即调用。
+                            在这一步，实例已完成以下的配置：数据观测 (data observer)，属性和方法的运算，watch/event 事件回调。
+                            然而，挂载阶段还没开始，$el 属性目前不可见。 */
+                            created: function () {
+                                console.log(this.msg);
+                            },
+                            //在挂载开始之前被调用：相关的渲染函数首次被调用
+                            beforeMount: function () {
+                                console.log(this.msg);
+        
+                            },
+                            //el 被新创建的 vm.$el 替换, 挂在成功	
+                            mounted: function () {
+                                console.log(this.msg);
+        
+                            },
+                            //数据更新时调用
+                            beforeUpdate: function () {
+                                console.log('beforeUpdate');
+                            },
+                            //组件 DOM 已经更新, 组件更新完毕 
+                            updated: function () {
+                                console.log('updated');
+                            }
+                        });
+                        setTimeout(function () {
+                            vm.msg = "change ......";
+                        }, 3000);
+                    &lt/script&gt
+         </code >
+        </pre>
+        <span>得到运行结果：</span>
+        <pre><code>
+                    undefined
+                    hi vue
+                    hi vue
+                    hi vue
+                    change ......
+                    change ......
+                </code></pre>
+        <span>可见，生命周期处于beforeCreate时，msg的参数还没有渲染出来</span>
     </div>
 </body>
 
 </html>
+<script src="js/highlight.pack.js"></script>
+<script type="text/javascript">
+    hljs.initHighlightingOnLoad();
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            msg: "hi vue",
+        },
+        //在实例初始化之后，数据观测 (data observer) 和 event/watcher 事件配置之前被调用。
+        beforeCreate: function () {
+            console.log(this.msg);
+        },
+        /* 在实例创建完成后被立即调用。
+        在这一步，实例已完成以下的配置：数据观测 (data observer)，属性和方法的运算，watch/event 事件回调。
+        然而，挂载阶段还没开始，$el 属性目前不可见。 */
+        created: function () {
+            console.log(this.msg);
+        },
+        //在挂载开始之前被调用：相关的渲染函数首次被调用
+        beforeMount: function () {
+            console.log(this.msg);
+
+        },
+        //el 被新创建的 vm.$el 替换, 挂在成功
+        mounted: function () {
+            console.log(this.msg);
+
+        },
+        //数据更新时调用
+        beforeUpdate: function () {
+            console.log(this.msg);
+
+        },
+        //组件 DOM 已经更新, 组件更新完毕
+        updated: function () {
+            console.log(this.msg);
+
+        }
+    });
+    setTimeout(function () {
+        vm.msg = "change ......";
+    }, 3000);
+</script>
